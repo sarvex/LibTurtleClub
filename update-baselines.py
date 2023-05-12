@@ -28,12 +28,14 @@ def get_latest_baseline_commit(url: str, refs: str) -> str:
 
 def update_local_vcpkg() -> bool:
     os.chdir(VCPKG_INSTALLATION_ROOT)
-    process = subprocess.Popen(f'git pull --rebase origin',
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.DEVNULL,
-                               encoding=ENCODING,
-                               text=True,
-                               shell=False)
+    process = subprocess.Popen(
+        'git pull --rebase origin',
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        encoding=ENCODING,
+        text=True,
+        shell=False,
+    )
 
     while process.poll() is None:
         if line := process.stdout.readline().strip():
@@ -65,7 +67,7 @@ def run() -> None:
                 json.dump(data, f, indent=2)
 
             if update_local_vcpkg():
-                print('Updated local repo: "%s"' % VCPKG_INSTALLATION_ROOT)
+                print(f'Updated local repo: "{VCPKG_INSTALLATION_ROOT}"')
 
 
 if __name__ == '__main__':
